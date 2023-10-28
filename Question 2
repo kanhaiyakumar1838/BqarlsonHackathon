@@ -1,0 +1,62 @@
+#include <iostream>
+using namespace std;
+
+// Definition for singly-linked list.
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+int maxChocolates(ListNode* head) {
+    int N = 0;
+    ListNode* current = head;
+    while (current != nullptr) {
+        N++;
+        current = current->next;
+    }
+
+    int maxSum = 0;
+    current = head;
+
+    for (int student = 0; student < N; student++) {
+        ListNode* start = current;
+        ListNode* end = head;
+        for (int i = 0; i < N - 1 - student; i++) {
+            end = end->next;
+        }
+          int sum = start->val + end->val;  // Calculate the sum of start and end values
+
+    if (sum > maxSum) {
+        maxSum = sum;  // Update maxSum if the current sum is greater
+    }
+        current = current->next;
+    }
+
+    return maxSum;
+}
+
+int main() {
+    int N = 5;
+    string chocolates = "1234532145";
+
+    ListNode* head = nullptr;
+    ListNode* current = nullptr;
+
+    for (char c : chocolates) {
+        int val = c - '0';
+        ListNode* newNode = new ListNode(val);
+        if (head == nullptr) {
+            head = newNode;
+            current = newNode;
+        } else {
+            current->next = newNode;
+            current = newNode;
+        }
+    }
+
+    int result = maxChocolates(head);
+    cout << result << endl;
+
+    return 0;
+}
